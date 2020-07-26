@@ -1,7 +1,14 @@
-import React from 'react';
-import JSResource from './JSResource';
+import React from "react";
+import JSResource from "./JSResource";
 
-export default function SuspenseImage(props) {
+interface PropT {
+  src: string;
+  alt?: string;
+  className: string;
+  title: string;
+}
+
+export default function SuspenseImage(props: PropT) {
   const { src } = props;
   if (src != null) {
     // JSResource is meant for loading resources, but the implementation is
@@ -11,12 +18,12 @@ export default function SuspenseImage(props) {
     // new loader *functions*, but JSResource will return a cached
     // value and only load the iamge once.
     const resource = JSResource(src, () => {
-      return new Promise(resolve => {
+      return new Promise((resolve) => {
         const img = new Image();
         img.onload = () => {
           resolve(src);
         };
-        img.onerror = error => {
+        img.onerror = (error) => {
           console.error(error);
           resolve(src);
         };
@@ -26,5 +33,5 @@ export default function SuspenseImage(props) {
     resource.load(); // TODO: JSResource::read() should call load() if necessary
     resource.read(); // suspends while the image is pending
   }
-  return <img alt={props.alt} {...props} />;
+  return <img alt={props.alt} />;
 }

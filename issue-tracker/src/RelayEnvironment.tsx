@@ -5,7 +5,7 @@ import { Environment, Network, RecordSource, Store } from 'relay-runtime';
  * the results of GraphQL queries from your server (or other data source). See more at
  * https://relay.dev/docs/en/quick-start-guide#relay-environment.
  */
-async function fetchRelay(params, variables, _cacheConfig) {
+async function fetchRelay(params: any, variables: any, _cacheConfig: any) {
   // Check that the auth token is configured
   const REACT_APP_GITHUB_AUTH_TOKEN = process.env.REACT_APP_GITHUB_AUTH_TOKEN;
   if (

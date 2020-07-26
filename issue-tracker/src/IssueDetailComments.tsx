@@ -1,17 +1,23 @@
-import graphql from 'babel-plugin-relay/macro';
-import React from 'react';
-import { usePaginationFragment } from 'react-relay/hooks';
-import ReactMarkdown from 'react-markdown';
-import SuspenseImage from './SuspenseImage';
+import { graphql } from "babel-plugin-relay/macro";
+import React from "react";
+import {} from "react/experimental";
+import { usePaginationFragment } from "react-relay/hooks";
+import ReactMarkdown from "react-markdown";
+import SuspenseImage from "./SuspenseImage";
 
-const { useCallback, useTransition, Suspense, SuspenseList } = React;
+const {
+  useCallback,
+  unstable_useTransition: useTransition,
+  Suspense,
+  unstable_SuspenseList: SuspenseList,
+} = React;
 
 const SUSPENSE_CONFIG = { timeoutMs: 2000 };
 
 /**
  * Renders a list of comments for a given issue.
  */
-export default function IssueDetailComments(props) {
+export default function IssueDetailComments(props: any) {
   // Given a reference to an issue in props.issue, defines *what*
   // data the component needs about that repository. In this case we fetch
   // the list of comments starting at a given cursor (initially null to start
@@ -73,7 +79,7 @@ export default function IssueDetailComments(props) {
   return (
     <>
       <SuspenseList revealOrder="forwards">
-        {comments.map(edge => {
+        {comments.map((edge: any) => {
           if (edge == null || edge.node == null) {
             return null;
           }
@@ -102,17 +108,19 @@ export default function IssueDetailComments(props) {
           );
         })}
       </SuspenseList>
-      {hasNext ? (
-        <button
-          name="load more comments"
-          type="button"
-          className="issue-comments-load-more"
-          onClick={loadMore}
-          disabled={isPending || isLoadingNext}
-        >
-          {isPending || isLoadingNext ? 'Loading...' : 'Load More'}
-        </button>
-      ) : null}
+      {hasNext
+        ? (
+          <button
+            name="load more comments"
+            type="button"
+            className="issue-comments-load-more"
+            onClick={loadMore}
+            disabled={isPending || isLoadingNext}
+          >
+            {isPending || isLoadingNext ? "Loading..." : "Load More"}
+          </button>
+        )
+        : null}
     </>
   );
 }

@@ -5,7 +5,7 @@ import RelayEnvironment from './RelayEnvironment';
 const routes = [
   {
     component: JSResource('Root', () => import('./Root')),
-    prepare: params => {
+    prepare: (params: any) => {
       const RootQuery = require('./__generated__/RootQuery.graphql');
       return {
         rootQuery: preloadQuery(
@@ -42,7 +42,7 @@ const routes = [
          * itself - here we just reference a description of the data - the generated
          * query.
          */
-        prepare: params => {
+        prepare: (params: any) => {
           const IssuesQuery = require('./__generated__/HomeRootIssuesQuery.graphql');
           return {
             issuesQuery: preloadQuery(
@@ -65,7 +65,7 @@ const routes = [
         component: JSResource('IssueDetailRoot', () =>
           import('./IssueDetailRoot'),
         ),
-        prepare: params => {
+        prepare: (params: any) => {
           const IssueDetailQuery = require('./__generated__/IssueDetailRootQuery.graphql');
           return {
             issueDetailQuery: preloadQuery(

@@ -20,6 +20,7 @@
     "build": "yarn run relay && react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
+    "tsc": "tsc",
     "update-schema": "get-graphql-schema -h \"Authorization=bearer $REACT_APP_GITHUB_AUTH_TOKEN\" https://api.github.com/graphql > schema/schema.graphql",
     "relay": "yarn run relay-compiler --schema schema/schema.graphql --src ./src/ $@"
   },
@@ -39,13 +40,18 @@
     ]
   },
   "devDependencies": {
+    "@types/react": "^16.9.43",
+    "@types/react-dom": "^16.9.8",
+    "@types/react-relay": "^7.0.8",
+    "@types/react-router-config": "^5.0.1",
     "babel-plugin-relay": "^9.0.0",
     "concurrently": "^5.0.0",
     "eslint-plugin-prettier": "^3.1.1",
     "get-graphql-schema": "^2.1.2",
     "graphql": "^14.5.8",
     "prettier": "^1.18.2",
-    "relay-compiler": "^9.0.0"
+    "relay-compiler": "^9.0.0",
+    "typescript": "^3.9.7"
   },
   "husky": {
     "hooks": {

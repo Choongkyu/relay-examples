@@ -1,15 +1,22 @@
-import graphql from 'babel-plugin-relay/macro';
+import { graphql } from 'babel-plugin-relay/macro';
 import React from 'react';
 import { usePreloadedQuery } from 'react-relay/hooks';
 
 const { Suspense } = React;
 
-export default function Root(props) {
+interface PropT {
+  prepared: {
+    rootQuery: any;
+  };
+  children: Array<any>;
+}
+
+export default function Root(props: PropT) {
   // Defines *what* data the component needs via a query. The responsibility of
   // actually fetching this data belongs to the route definition: it calls
   // preloadQuery() with the query and variables, and the result is passed
   // on props.prepared.issuesQuery - see src/routes.js
-  const data = usePreloadedQuery(
+  const data: any = usePreloadedQuery(
     graphql`
       query RootQuery($owner: String!, $name: String!) {
         repository(owner: $owner, name: $name) {

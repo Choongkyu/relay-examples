@@ -11,7 +11,11 @@ const resourceMap = new Map();
  * argument - it allows accessing the state of the resource.
  */
 class Resource {
-  constructor(loader) {
+  private _error: null | Error;
+  private _loader: () => Promise<any>;
+  private _promise: null | Promise<any>;
+  private _result: null | { default: any };
+  constructor(loader: () => Promise<any>) {
     this._error = null;
     this._loader = loader;
     this._promise = null;
@@ -87,7 +91,7 @@ class Resource {
  * @param {*} moduleId A globally unique identifier for the resource used for caching
  * @param {*} loader A method to load the resource's data if necessary
  */
-export default function JSResource(moduleId, loader) {
+export default function JSResource(moduleId: any, loader: any) {
   let resource = resourceMap.get(moduleId);
   if (resource == null) {
     resource = new Resource(loader);

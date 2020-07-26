@@ -1,8 +1,8 @@
-import graphql from 'babel-plugin-relay/macro';
-import React from 'react';
-import { useFragment } from 'react-relay/hooks';
-import { ConnectionHandler } from 'relay-runtime';
-import useMutation from './useMutation';
+import { graphql } from "babel-plugin-relay/macro";
+import React from "react";
+import { useFragment } from "react-relay/hooks";
+import { ConnectionHandler } from "relay-runtime";
+import useMutation from "./useMutation";
 
 const { useCallback, useState } = React;
 
@@ -47,14 +47,15 @@ const ReopenIssueMutation = graphql`
   }
 `;
 
-export default function IssueActions(props) {
+export default function IssueActions(props: any) {
   // Track the current comment text - this is used as the value of the comment textarea
-  const [commentText, setCommentText] = useState('');
+  const [commentText, setCommentText] = useState("");
 
   const [isCommentPending, addComment] = useMutation(AddCommentMutation);
   const [isClosePending, closeIssue] = useMutation(CloseIssueMutation);
   const [isReopenPending, reopenIssue] = useMutation(ReopenIssueMutation);
-  const isPending = isCommentPending || isClosePending || isReopenPending;
+  const isPending = isCommentPending as boolean || isClosePending as boolean ||
+    isReopenPending as boolean;
 
   // Get the data we need about the issue in order to execute the mutation. Right now that's just
   // the id, but in the future this component might neeed more information.
@@ -71,7 +72,7 @@ export default function IssueActions(props) {
 
   // Callback to handle edits to the comment text
   const onChange = useCallback(
-    event => {
+    (event) => {
       setCommentText(event.target.value);
     },
     [setCommentText],
@@ -79,9 +80,9 @@ export default function IssueActions(props) {
 
   // Form submit callback
   const onSubmit = useCallback(
-    event => {
+    (event) => {
       event.preventDefault();
-      addComment({
+      (addComment as (config: any) => void)({
         variables: {
           input: {
             body: commentText,
@@ -94,7 +95,7 @@ export default function IssueActions(props) {
          * doesn't magically know where addComment.commentEdge should be added into the data graph.
          * So we define an `updater` function to imperatively update thee store.
          */
-        updater: store => {
+        updater: (store: any) => {
           // Get a reference to the issue
           const issue = store.get(issueId);
           if (issue == null) {
@@ -104,7 +105,7 @@ export default function IssueActions(props) {
           // IssueDetailComments
           const comments = ConnectionHandler.getConnection(
             issue,
-            'IssueDetailComments_comments', // See IssueDetailsComments @connection
+            "IssueDetailComments_comments", // See IssueDetailsComments @connection
           );
           if (comments == null) {
             return;
@@ -112,20 +113,20 @@ export default function IssueActions(props) {
           // Insert the edge at the end of the list
           ConnectionHandler.insertEdgeAfter(
             comments,
-            store.getRootField('addComment').getLinkedRecord('commentEdge'),
+            store.getRootField("addComment").getLinkedRecord("commentEdge"),
             null, // we can specify a cursor value here to insert the new edge after that  cursor
           );
         },
       });
       // Reset the comment text
-      setCommentText('');
+      setCommentText("");
     },
     [commentText, setCommentText, issueId, addComment],
   );
 
   // Reopen/Close the issue
   const onToggleOpen = useCallback(
-    event => {
+    (event) => {
       event.preventDefault();
 
       // Switch mutation based on the current open/close status
@@ -137,9 +138,9 @@ export default function IssueActions(props) {
         },
       };
       if (data.closed) {
-        reopenIssue(config);
+        (reopenIssue as (config: any) => void)(config);
       } else {
-        closeIssue(config);
+        (closeIssue as (config: any) => void)(config);
       }
     },
     [data, reopenIssue, closeIssue],
@@ -151,12 +152,12 @@ export default function IssueActions(props) {
         className="issue-actions-text"
         onChange={onChange}
         value={commentText}
-        placeholder={'Leave a comment'}
+        placeholder={"Leave a comment"}
       />
       <button
         className="issue-actions-button"
         type="submit"
-        disabled={isPending || commentText.trim() === ''}
+        disabled={isPending || commentText.trim() === ""}
       >
         Comment
       </button>
@@ -166,7 +167,7 @@ export default function IssueActions(props) {
         onClick={onToggleOpen}
         disabled={isPending}
       >
-        {data.closed ? 'Reopen' : 'Close'}
+        {data.closed ? "Reopen" : "Close"}
       </button>
     </form>
   );
