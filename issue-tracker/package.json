@@ -12,8 +12,7 @@
     "react-relay": "0.0.0-experimental-8cc94ddc",
     "react-router": "^5.1.2",
     "react-router-config": "^5.1.1",
-    "react-scripts": "3.2.0",
-    "relay-runtime": "^9.0.0"
+    "react-scripts": "3.2.0"
   },
   "scripts": {
     "start": "yarn run relay; concurrently --kill-others --names \"react-scripts,relay\" \"react-scripts start\" \"yarn run relay --watch\"",
@@ -40,6 +39,7 @@
     ]
   },
   "devDependencies": {
+    "@types/node": "^14.0.26",
     "@types/react": "^16.9.43",
     "@types/react-dom": "^16.9.8",
     "@types/react-relay": "^7.0.8",

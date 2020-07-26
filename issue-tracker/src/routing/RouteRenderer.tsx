@@ -1,13 +1,12 @@
-import React from 'react';
-import {} from 'react/experimental';
-import { RoutingContext } from './RoutingContext';
-import ErrorBoundary from '../ErrorBoundary';
-import './RouteRenderer.css';
+import React from "react";
+import { RoutingContext } from "./RoutingContext";
+import ErrorBoundary from "../ErrorBoundary";
+import "./RouteRenderer.css";
 
 const {
   useContext,
   useEffect,
-  unstable_useTransition: useTransition,
+  useTransition,
   Suspense,
   useState,
 } = React;
@@ -19,6 +18,7 @@ const SUSPENSE_CONFIG = { timeoutMs: 2000 };
  * that entry.
  */
 export default function RouterRenderer() {
+  console.log("use trans>>>", useTransition, useEffect);
   // Access the router
   const router = useContext(RoutingContext);
   // Improve the route transition UX by delaying transitions: show the previous route entry
@@ -28,12 +28,12 @@ export default function RouterRenderer() {
 
   // Store the active entry in state - this allows the renderer to use features like
   // useTransition to delay when state changes become visible to the user.
-  const [routeEntry, setRouteEntry] = useState(router?.get());
+  const [routeEntry, setRouteEntry] = useState(router.get());
 
   // On mount subscribe for route changes
   useEffect(() => {
     // Check if the route has changed between the last render and commit:
-    const currentEntry = router?.get();
+    const currentEntry = router.get();
     if (currentEntry !== routeEntry) {
       // if there was a concurrent modification, rerender and exit
       setRouteEntry(currentEntry);
@@ -42,7 +42,7 @@ export default function RouterRenderer() {
 
     // If there *wasn't* a concurrent change to the route, then the UI
     // is current: subscribe for subsequent route updates
-    const dispose = router?.subscribe((nextEntry: any) => {
+    const dispose = router.subscribe((nextEntry: any) => {
       // startTransition() delays the effect of the setRouteEntry (setState) call
       // for a brief period, continuing to show the old state while the new
       // state (route) is prepared.
@@ -104,11 +104,13 @@ export default function RouterRenderer() {
   // Routes can suspend, so wrap in <Suspense>
   return (
     <ErrorBoundary>
-      <Suspense fallback={'Loading fallback...'}>
+      <Suspense fallback={"Loading fallback..."}>
         {/* Indicate to the user that a transition is pending, even while showing the previous UI */}
-        {isPending ? (
-          <div className="RouteRenderer-pending">Loading pending...</div>
-        ) : null}
+        {isPending
+          ? (
+            <div className="RouteRenderer-pending">Loading pending...</div>
+          )
+          : null}
         {routeComponent}
       </Suspense>
     </ErrorBoundary>

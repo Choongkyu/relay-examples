@@ -1,4 +1,4 @@
-import { Environment, Network, RecordSource, Store } from 'relay-runtime';
+import { Environment, Network, RecordSource, Store } from "relay-runtime";
 
 /**
  * Relay requires developers to configure a "fetch" function that tells Relay how to load
@@ -10,19 +10,19 @@ async function fetchRelay(params: any, variables: any, _cacheConfig: any) {
   const REACT_APP_GITHUB_AUTH_TOKEN = process.env.REACT_APP_GITHUB_AUTH_TOKEN;
   if (
     REACT_APP_GITHUB_AUTH_TOKEN == null ||
-    REACT_APP_GITHUB_AUTH_TOKEN === ''
+    REACT_APP_GITHUB_AUTH_TOKEN === ""
   ) {
     throw new Error(
-      'This app requires a GitHub authentication token to be configured. See readme.md for setup details.',
+      "This app requires a GitHub authentication token to be configured. See readme.md for setup details.",
     );
   }
 
   // Fetch data from GitHub's GraphQL API:
-  const response = await fetch('https://api.github.com/graphql', {
-    method: 'POST',
+  const response = await fetch("https://api.github.com/graphql", {
+    method: "POST",
     headers: {
       Authorization: `bearer ${REACT_APP_GITHUB_AUTH_TOKEN}`,
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     },
     body: JSON.stringify({
       query: params.text,
@@ -39,11 +39,13 @@ async function fetchRelay(params: any, variables: any, _cacheConfig: any) {
   if (Array.isArray(json.errors)) {
     console.log(json.errors);
     throw new Error(
-      `Error fetching GraphQL query '${
-        params.name
-      }' with variables '${JSON.stringify(variables)}': ${JSON.stringify(
-        json.errors,
-      )}`,
+      `Error fetching GraphQL query '${params.name}' with variables '${
+        JSON.stringify(variables)
+      }': ${
+        JSON.stringify(
+          json.errors,
+        )
+      }`,
     );
   }
 

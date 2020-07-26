@@ -1,6 +1,5 @@
-import { createBrowserHistory } from "history";
-import { matchRoutes } from "react-router-config";
-import { StaticRouterContext, RouterChildContext } from "react-router";
+import { createBrowserHistory } from 'history';
+import { matchRoutes } from 'react-router-config';
 
 /**
  * A custom router built from the same primitives as react-router. Each object in `routes`
@@ -38,7 +37,7 @@ export default function createRouter(routes: any, options: any) {
       entries,
     };
     currentEntry = nextEntry;
-    subscribers.forEach((cb) => cb(nextEntry));
+    subscribers.forEach(cb => cb(nextEntry));
   });
 
   // The actual object that will be passed on the RoutingConext.
@@ -78,7 +77,7 @@ export default function createRouter(routes: any, options: any) {
 function matchRoute(routes: any, location: any) {
   const matchedRoutes = matchRoutes(routes, location.pathname);
   if (!Array.isArray(matchedRoutes) || matchedRoutes.length === 0) {
-    throw new Error("No route for " + location.pathname);
+    throw new Error('No route for ' + location.pathname);
   }
   return matchedRoutes;
 }
@@ -87,7 +86,7 @@ function matchRoute(routes: any, location: any) {
  * Load the data for the matched route, given the params extracted from the route
  */
 function prepareMatches(matches: Array<any>) {
-  return matches.map((match) => {
+  return matches.map(match => {
     const { route, match: matchData } = match;
     const prepared = route.prepare(matchData.params);
     const Component = route.component.get();

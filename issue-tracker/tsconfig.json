@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "types": ["react/experimental", "node"],
     "target": "es5",
     "module": "esnext",
     "lib": ["dom", "ESNext"],

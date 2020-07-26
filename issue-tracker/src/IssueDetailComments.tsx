@@ -1,16 +1,10 @@
 import { graphql } from "babel-plugin-relay/macro";
 import React from "react";
-import {} from "react/experimental";
 import { usePaginationFragment } from "react-relay/hooks";
 import ReactMarkdown from "react-markdown";
 import SuspenseImage from "./SuspenseImage";
 
-const {
-  useCallback,
-  unstable_useTransition: useTransition,
-  Suspense,
-  unstable_SuspenseList: SuspenseList,
-} = React;
+const { useCallback, useTransition, Suspense, SuspenseList } = React;
 
 const SUSPENSE_CONFIG = { timeoutMs: 2000 };
 
@@ -50,6 +44,7 @@ export default function IssueDetailComments(props: any) {
     `,
     props.issue,
   );
+  console.log("use transition>>>", useTransition);
   // Individual comments may suspend while any images are loading (for the
   // author avatar or content within the comment body). Using `useTransition()`
   // allows us to continue showing existing comments while the next page of
